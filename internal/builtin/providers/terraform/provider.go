@@ -10,6 +10,7 @@ import (
 	"github.com/zclconf/go-cty/cty"
 
 	tfaddr "github.com/hashicorp/terraform-registry-address"
+	"github.com/hashicorp/terraform/internal/configs/configschema"
 	"github.com/hashicorp/terraform/internal/providers"
 )
 
@@ -24,6 +25,16 @@ func NewProvider() providers.Interface {
 // GetSchema returns the complete schema for the provider.
 func (p *Provider) GetProviderSchema() providers.GetProviderSchemaResponse {
 	resp := providers.GetProviderSchemaResponse{
+		Provider: providers.Schema{
+			Block: &configschema.Block{
+				Attributes: map[string]*configschema.Attribute{
+					"test": &configschema.Attribute{
+						Type:     cty.String,
+						Optional: true,
+					},
+				},
+			},
+		},
 		ServerCapabilities: providers.ServerCapabilities{
 			MoveResourceState: true,
 		},
